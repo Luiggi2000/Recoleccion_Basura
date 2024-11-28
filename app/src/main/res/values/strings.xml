@@ -10,4 +10,11 @@
     <string name="contraseña">Contraseña</string>
     <string name="inicio_de_sesion">Inicia sesion para acceder a tu cuenta</string>
     <string name="name">LIMPIAUNS</string>
+    <string-array name="report_status">
+        <item>Todos</item>
+        <item>Pendiente</item>
+        <item>En progreso</item>
+        <item>Completado</item>
+    </string-array>
+
 </resources>
