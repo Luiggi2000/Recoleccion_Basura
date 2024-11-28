@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">MiPrimeraPractica</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="password">Contraseña</string>
+    <string name="correo">Correo Electronico</string>
+    <string name="continuar_con_google">Continuar por Google</string>
+    <string name="o">O</string>
+    <string name="inicio_sesion">Iniciar Sesion</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="contraseña">Contraseña</string>
+    <string name="inicio_de_sesion">Inicia sesion para acceder a tu cuenta</string>
+    <string name="name">LIMPIAUNS</string>
 </resources>
