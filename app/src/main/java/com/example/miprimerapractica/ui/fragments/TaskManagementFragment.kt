@@ -15,9 +15,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.miprimerapractica.R
 
 class TaskManagementFragment : Fragment() {
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var reportAdapter: ReportAdapter
     private lateinit var reportList: MutableList<Report>
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
