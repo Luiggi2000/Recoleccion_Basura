@@ -59,8 +59,15 @@ class LoginFragment : Fragment() {
         }
 
         registerButton.setOnClickListener {
-            Toast.makeText(requireContext(), "Registro no implementado", Toast.LENGTH_SHORT).show()
-        }
+            val email = emailEditText.text.toString().trim()
+            val password = passwordEditText.text.toString()
+
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(requireContext(), "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            registerUser(email, password)        }
 
         return view
     }
@@ -78,6 +85,17 @@ class LoginFragment : Fragment() {
             }
     }
 
+    private fun registerUser(email: String, password: String) {
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(requireContext(), "Registro exitoso", Toast.LENGTH_SHORT).show()
+                } else {
+                    val errorMessage = task.exception?.message ?: "Error desconocido"
+                    Toast.makeText(requireContext(), "Error: $errorMessage", Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
     companion object {
         /**
          * Use this factory method to create a new instance of
