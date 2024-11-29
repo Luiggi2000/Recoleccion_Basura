@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MiPrimeraPractica</string>
+    <string name="app_name">LimpiaUNS</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="password">Contraseña</string>
     <string name="correo">Correo Electronico</string>
