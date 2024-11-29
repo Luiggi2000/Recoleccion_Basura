@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.fragments.ReportDetailFragment">
+
+    <!-- Descripción del reporte -->
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Descripción del reporte"
+        android:textSize="18sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Imagen del reporte -->
+    <ImageView
+        android:id="@+id/ivImage"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/ic_placeholder"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="40dp"
+        android:scaleType="centerCrop"/>
+
+    <!-- Botón para marcar como resuelto -->
+    <Button
+        android:id="@+id/btnMarkAsResolved"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Marcar como resuelto"
+        android:backgroundTint="@color/purple_700"
+        android:textColor="@android:color/white"/>
+
+</LinearLayout>

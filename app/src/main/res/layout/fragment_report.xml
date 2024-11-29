@@ -6,39 +6,57 @@
     android:orientation="vertical"
     tools:context=".ui.fragments.ReportFragment">
 
-    <FrameLayout
-        android:id="@+id/mapContainer"
+    <!-- Fragmento del mapa -->
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="3dp" />
+        android:layout_height="200dp" />
 
+    <!-- Campo de texto para la descripción -->
     <EditText
         android:id="@+id/etDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Descripción del problema"
-        android:padding="10dp"
-        android:layout_margin="8dp" />
+        android:layout_marginTop="16dp"
+        android:hint="Describe el problema"
+        android:inputType="textMultiLine" />
 
+    <!-- Botón para adjuntar una imagen -->
     <Button
-        android:id="@+id/btnUploadPhoto"
+        android:id="@+id/btnUploadImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Subir Foto"
-        android:layout_margin="8dp" />
+        android:layout_marginTop="16dp"
+        android:text="Subir Imagen" />
 
+    <!-- Vista previa de la imagen seleccionada -->
     <ImageView
-        android:id="@+id/ivPhotoPreview"
+        android:id="@+id/ivSelectedImage"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_margin="8dp"
+        android:layout_marginTop="16dp"
         android:scaleType="centerCrop"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:src="@drawable/ic_placeholder" />
 
+    <!-- Botón para enviar el reporte -->
     <Button
-        android:id="@+id/btnSendReport"
+        android:id="@+id/btnSubmitReport"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/purple_700"
         android:text="Enviar Reporte"
-        android:layout_margin="8dp" />
+        android:textColor="@android:color/white" />
+
+    <!-- Barra de progreso para la carga -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:visibility="gone" />
 
 </LinearLayout>

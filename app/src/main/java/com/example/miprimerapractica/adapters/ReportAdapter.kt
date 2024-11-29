@@ -3,23 +3,18 @@ package com.example.miprimerapractica.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.miprimerapractica.R
 import com.example.miprimerapractica.models.Report
+import de.hdodenhof.circleimageview.CircleImageView
+
 
 class ReportAdapter(
-    private val reports: List<Report>,
-    private val onReportClick: (Report) -> Unit
+    private val reportList: List<Report>,
+    private val onItemClick: (Report) -> Unit // Agregamos un listener de clic
 ) : RecyclerView.Adapter<ReportAdapter.ReportViewHolder>() {
-
-    class ReportViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val description: TextView = view.findViewById(R.id.tvDescription)
-        val status: TextView = view.findViewById(R.id.tvStatus)
-        val image: ImageView = view.findViewById(R.id.ivImage)
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReportViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_item_report, parent, false)
@@ -27,17 +22,21 @@ class ReportAdapter(
     }
 
     override fun onBindViewHolder(holder: ReportViewHolder, position: Int) {
-        val report = reports[position]
-        holder.description.text = report.description
-        holder.status.text = report.status
+        val report = reportList[position]
 
-        // Cargar imagen desde la URL usando Glide o Picasso
-        Glide.with(holder.itemView.context)
-            .load(report.imageUrl)
-            .into(holder.image)
+        holder.descriptionTextView.text = report.description
+        Glide.with(holder.itemView.context).load(report.imageUrl).into(holder.reportImageView)
 
-        holder.itemView.setOnClickListener { onReportClick(report) }
+        // Configurar el clic en el ítem
+        holder.itemView.setOnClickListener {
+            onItemClick(report)  // Pasar el reporte al listener
+        }
     }
 
-    override fun getItemCount() = reports.size
+    override fun getItemCount(): Int = reportList.size
+
+    class ReportViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val descriptionTextView: TextView = itemView.findViewById(R.id.tvDescription)
+        val reportImageView: CircleImageView = itemView.findViewById(R.id.ivImage)
+    }
 }
