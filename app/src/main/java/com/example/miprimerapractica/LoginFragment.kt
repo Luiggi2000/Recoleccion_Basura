@@ -5,8 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.example.miprimerapractica.ui.fragments.DashboardFragment
+import com.example.miprimerapractica.ui.fragments.ReportFragment
+import com.example.miprimerapractica.ui.fragments.TaskManagementFragment
+import com.google.android.gms.maps.model.Dash
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.FirebaseApp
@@ -43,8 +48,8 @@ class LoginFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_login, container, false)
 
         // Configurar los elementos del diseño
-        val emailEditText = view.findViewById<TextInputEditText>(R.id.emailEditText)
-        val passwordEditText = view.findViewById<TextInputEditText>(R.id.passwordEditText)
+        val emailEditText = view.findViewById<EditText>(R.id.emailEditText)
+        val passwordEditText = view.findViewById<EditText>(R.id.passwordEditText)
         val loginButton = view.findViewById<MaterialButton>(R.id.loginbtn)
         val registerButton = view.findViewById<MaterialButton>(R.id.registerbtn)
 
@@ -79,14 +84,62 @@ class LoginFragment : Fragment() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Toast.makeText(requireContext(), "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
-                    // Redirigir o realizar la acción deseada
+                    val user = auth.currentUser
+                    val db = FirebaseFirestore.getInstance()
+
+                    if (user != null) {
+                        // Utilizamos el UID del usuario autenticado para obtener los datos del usuario en Firestore
+                        val userRef = db.collection("users").document(user.uid)
+
+                        userRef.get()
+                            .addOnSuccessListener { document ->
+                                if (document.exists()) {
+                                    // Obtenemos los datos del usuario
+                                    val nombres = document.getString("nombres")
+                                    val apellidos = document.getString("apellidos")
+                                    val rol = document.getString("rol")
+
+                                    Toast.makeText(requireContext(), "Bienvenido, $nombres $apellidos", Toast.LENGTH_SHORT).show()
+
+                                    // Redirigir según el rol
+                                    when (rol) {
+                                        "admin" -> {
+                                            replaceFragment(DashboardFragment())
+                                        }
+                                        "limpiador" -> {
+                                            replaceFragment(TaskManagementFragment())
+                                        }
+                                        "common" -> {
+                                            replaceFragment(ReportFragment())
+                                        }
+                                        else -> {
+                                            replaceFragment(ReportFragment())
+                                        }
+                                    }
+                                } else {
+                                    Toast.makeText(requireContext(), "No se encontraron detalles del usuario", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                            .addOnFailureListener { exception ->
+                                Toast.makeText(requireContext(), "Error al obtener datos del usuario: ${exception.message}", Toast.LENGTH_SHORT).show()
+                            }
+                    }
                 } else {
                     val errorMessage = task.exception?.message ?: "Error desconocido"
                     Toast.makeText(requireContext(), "Error: $errorMessage", Toast.LENGTH_SHORT).show()
                 }
             }
     }
+
+
+    private fun replaceFragment(fragment: Fragment) {
+        val transaction = requireActivity().supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragment_container, fragment) // Asegúrate de que fragment_container es el ID del contenedor
+        transaction.addToBackStack(null) // Opcional si deseas que se pueda volver al fragmento anterior
+        transaction.commit()
+    }
+
+
 
     private fun registerUser(email: String, password: String) {
         auth.createUserWithEmailAndPassword(email, password)
