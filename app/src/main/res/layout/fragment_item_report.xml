@@ -7,7 +7,7 @@
     tools:context=".ui.fragments.ItemReportFragment">
 
     <ImageView
-        android:id="@+id/ivImage"
+        android:id="@+id/ivRImage"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:scaleType="centerCrop" />

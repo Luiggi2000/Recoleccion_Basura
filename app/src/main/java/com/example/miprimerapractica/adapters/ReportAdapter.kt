@@ -3,6 +3,8 @@ package com.example.miprimerapractica.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -13,7 +15,8 @@ import de.hdodenhof.circleimageview.CircleImageView
 
 class ReportAdapter(
     private val reportList: List<Report>,
-    private val onItemClick: (Report) -> Unit // Agregamos un listener de clic
+    private val onItemClick: (Report) -> Unit, // Para ver detalles
+    private val onStatusChange: (Report, String) -> Unit // Para cambiar el estado
 ) : RecyclerView.Adapter<ReportAdapter.ReportViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReportViewHolder {
@@ -31,12 +34,21 @@ class ReportAdapter(
         holder.itemView.setOnClickListener {
             onItemClick(report)  // Pasar el reporte al listener
         }
+
+        // Cambiar estado cuando se hace clic en el botón
+        holder.btnMarkAsResolved.setOnClickListener {
+            // Cambiar el estado a "resuelto"
+            onStatusChange(report, "resolved")
+        }
     }
 
     override fun getItemCount(): Int = reportList.size
 
     class ReportViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val descriptionTextView: TextView = itemView.findViewById(R.id.tvDescription)
-        val reportImageView: CircleImageView = itemView.findViewById(R.id.ivImage)
+        val reportImageView: ImageView = itemView.findViewById(R.id.ivRImage)
+        val btnMarkAsResolved: Button = itemView.findViewById(R.id.btnMarkAsResolved)
     }
 }
+
+
