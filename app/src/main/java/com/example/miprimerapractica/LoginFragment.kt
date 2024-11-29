@@ -9,7 +9,9 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,12 +26,13 @@ private const val ARG_PARAM2 = "param2"
 class LoginFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         auth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance() // Inicialización de Firestore
 
     }
 
