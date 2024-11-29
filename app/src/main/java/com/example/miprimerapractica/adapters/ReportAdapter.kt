@@ -10,35 +10,34 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.miprimerapractica.R
 import com.example.miprimerapractica.models.Report
-import de.hdodenhof.circleimageview.CircleImageView
-
 
 class ReportAdapter(
-    private val reportList: List<Report>,
-    private val onItemClick: (Report) -> Unit, // Para ver detalles
-    private val onStatusChange: (Report, String) -> Unit // Para cambiar el estado
+    private val reportList: List<Report>, // Lista de reportes
+    private val onItemClick: (Report) -> Unit, // Callback para clic en un reporte
+    private val onStatusChange: (Report, String) -> Unit // Callback para cambiar estado
 ) : RecyclerView.Adapter<ReportAdapter.ReportViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReportViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_item_report, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.fragment_item_report, parent, false)
         return ReportViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ReportViewHolder, position: Int) {
         val report = reportList[position]
 
+        // Configurar vistas
         holder.descriptionTextView.text = report.description
         Glide.with(holder.itemView.context).load(report.imageUrl).into(holder.reportImageView)
 
-        // Configurar el clic en el ítem
+        // Acción al hacer clic en el ítem
         holder.itemView.setOnClickListener {
-            onItemClick(report)  // Pasar el reporte al listener
+            onItemClick(report) // Llama al callback con el reporte actual
         }
 
-        // Cambiar estado cuando se hace clic en el botón
+        // Acción al hacer clic en el botón de cambiar estado
         holder.btnMarkAsResolved.setOnClickListener {
-            // Cambiar el estado a "resuelto"
-            onStatusChange(report, "resolved")
+            onStatusChange(report, "resolved") // Llama al callback para cambiar estado a "resolved"
         }
     }
 
@@ -50,5 +49,3 @@ class ReportAdapter(
         val btnMarkAsResolved: Button = itemView.findViewById(R.id.btnMarkAsResolved)
     }
 }
-
-

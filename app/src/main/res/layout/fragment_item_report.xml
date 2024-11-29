@@ -14,7 +14,7 @@
 
         <!-- Imagen del reporte -->
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/ivImage"
+            android:id="@+id/ivRImage"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_gravity="center"
