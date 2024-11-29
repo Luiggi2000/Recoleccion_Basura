@@ -4,48 +4,66 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/loginFragment">
+
+    <!-- Fragmento Login -->
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.miprimerapractica.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login">
+        <!-- Aquí puedes agregar acciones si es necesario -->
+    </fragment>
+
+    <!-- Fragmento Dashboard -->
     <fragment
         android:id="@+id/dashboardFragment"
         android:name="com.example.miprimerapractica.ui.fragments.DashboardFragment"
         android:label="fragment_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard">
+        <action
+            android:id="@+id/action_dashboard_to_reportDetail"
+            app:destination="@id/reportDetailFragment" />
+        <!-- Definir acciones para navegación desde el Dashboard -->
+    </fragment>
+
+    <!-- Fragmento ItemReport -->
     <fragment
         android:id="@+id/itemReportFragment"
         android:name="com.example.miprimerapractica.ui.fragments.ItemReportFragment"
         android:label="fragment_item_report"
         tools:layout="@layout/fragment_item_report" />
+
+    <!-- Fragmento ItemTask -->
     <fragment
         android:id="@+id/itemTaskFragment"
         android:name="com.example.miprimerapractica.ui.fragments.ItemTaskFragment"
         android:label="fragment_item_task"
         tools:layout="@layout/fragment_item_task" />
+
+    <!-- Fragmento Report -->
     <fragment
         android:id="@+id/reportFragment"
         android:name="com.example.miprimerapractica.ui.fragments.ReportFragment"
         android:label="fragment_report"
         tools:layout="@layout/fragment_report" />
+
+    <!-- Fragmento ReportDetail -->
     <fragment
         android:id="@+id/reportDetailFragment"
         android:name="com.example.miprimerapractica.ui.fragments.ReportDetailFragment"
         android:label="fragment_report_detail"
         tools:layout="@layout/fragment_report_detail" />
+
+    <!-- Fragmento TaskManagement -->
     <fragment
         android:id="@+id/taskManagementFragment"
         android:name="com.example.miprimerapractica.ui.fragments.TaskManagementFragment"
         android:label="fragment_task_management"
-        tools:layout="@layout/fragment_task_management" >
+        tools:layout="@layout/fragment_task_management">
         <action
             android:id="@+id/action_taskManagementFragment_to_itemTaskFragment"
             app:destination="@id/itemTaskFragment" />
+        <!-- Acción para navegar de TaskManagementFragment a ItemTaskFragment -->
     </fragment>
-    <activity
-        android:id="@+id/mainActivity"
-        android:name="com.example.miprimerapractica.MainActivity"
-        android:label="activity_main"
-        tools:layout="@layout/activity_main" />
+
 </navigation>

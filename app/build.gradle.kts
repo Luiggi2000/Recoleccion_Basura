@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id ("kotlin-kapt")
+    id("com.google.gms.google-services")
 
 }
 
@@ -55,6 +56,8 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.15.1")
     kapt ("com.github.bumptech.glide:compiler:4.15.1")
     implementation ("de.hdodenhof:circleimageview:3.1.0")
+    implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
+    implementation("com.google.firebase:firebase-analytics")
 
 
 

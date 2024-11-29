@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "594136492180",
-    "project_id": "app-basura-747c4",
-    "storage_bucket": "app-basura-747c4.firebasestorage.app"
+    "project_number": "1026272514303",
+    "project_id": "limpiauns",
+    "storage_bucket": "limpiauns.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:594136492180:android:704532488ab624beffec81",
+        "mobilesdk_app_id": "1:1026272514303:android:b8cc34d54b4bcdc48cbcca",
         "android_client_info": {
           "package_name": "com.example.miprimerapractica"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyALTJsrNeV0u-qP3fhaOYSZAI54_ws1iGs"
+          "current_key": "AIzaSyC0dL1M0QkNX8D57OqPyz6xbgYTvRVR2us"
         }
       ],
       "services": {
