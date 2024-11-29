@@ -80,7 +80,7 @@ class TaskManagementFragment : Fragment() {
 
         // Navegar al fragmento de detalles
         parentFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, reportDetailFragment)
+            .replace(R.id.nav_graph, reportDetailFragment)
             .addToBackStack(null) // Agregar a la pila de retroceso para permitir navegación
             .commit()
     }

@@ -75,7 +75,7 @@ class DashboardFragment : Fragment() {
 
         // Reemplazar el fragmento actual por el fragmento de detalles
         parentFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, fragment)  // Asegúrate de que R.id.fragment_container sea el contenedor de tus fragmentos
+            .replace(R.id.nav_graph, fragment)  // Asegúrate de que R.id.fragment_container sea el contenedor de tus fragmentos
             .addToBackStack(null)  // Añadir a la pila de retroceso
             .commit()
     }

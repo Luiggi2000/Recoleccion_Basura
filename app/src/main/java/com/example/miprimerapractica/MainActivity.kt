@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
             val loginFragment = LoginFragment()
 
             // Reemplazar el fragmento en el contenedor de FrameLayout
-            fragmentTransaction.replace(R.id.fragment_container, loginFragment)
+            fragmentTransaction.replace(R.id.nav_graph, loginFragment)
             fragmentTransaction.commit()
         }}
 
