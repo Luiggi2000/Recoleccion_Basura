@@ -1,6 +1,7 @@
 package com.example.miprimerapractica
 
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -20,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
 
         setContentView(R.layout.activity_main)
-
+/*
         // Configurar NavController para manejar navegación desde nav_graph
         val navController =
             findNavController(androidx.navigation.fragment.R.id.nav_host_fragment_container)
@@ -31,5 +32,22 @@ class MainActivity : AppCompatActivity() {
         val navController =
             findNavController(androidx.navigation.fragment.R.id.nav_host_fragment_container)
         return navController.navigateUp() || super.onSupportNavigateUp()
+
+ */
+        enableEdgeToEdge()
+
+
+        if (savedInstanceState == null) {
+            val fragmentTransaction = supportFragmentManager.beginTransaction()
+            val loginFragment = LoginFragment()
+
+            // Reemplazar el fragmento en el contenedor de FrameLayout
+            fragmentTransaction.replace(R.id.nav_graph, loginFragment)
+            fragmentTransaction.commit()
+        }}
+
     }
+
+
+
 }
