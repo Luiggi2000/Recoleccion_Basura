@@ -18,13 +18,13 @@
         tools:targetApi="31">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyALTJsrNeV0u-qP3fhaOYSZAI54_ws1iGs" />
+            android:value="AIzaSyAjpLZpN6ESH_hpllOJn4uBaEsWlZxvVXQ" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <meta-data
                 android:name="com.google.android.geo.API_KEY"
-                android:value="AIzaSyB5-Qwmw2fX8756M0wm6msHwWccuHensCo" />
+                android:value="AIzaSyAjpLZpN6ESH_hpllOJn4uBaEsWlZxvVXQ" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

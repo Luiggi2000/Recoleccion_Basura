@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.example.miprimerapractica.ui.fragments.DashboardFragment
+import com.example.miprimerapractica.ui.fragments.ItemTaskFragment
 import com.example.miprimerapractica.ui.fragments.ReportFragment
 import com.example.miprimerapractica.ui.fragments.TaskManagementFragment
 import com.google.android.gms.maps.model.Dash
@@ -87,46 +88,44 @@ class LoginFragment : Fragment() {
                     val user = auth.currentUser
                     val db = FirebaseFirestore.getInstance()
 
-                    if (user != null) {
-                        // Utilizamos el UID del usuario autenticado para obtener los datos del usuario en Firestore
-                        val userRef = db.collection("users").document(user.uid)
+                    user?.let { firebaseUser ->
+                        val userRef = db.collection("users").document(firebaseUser.uid)
 
                         userRef.get()
                             .addOnSuccessListener { document ->
                                 if (document.exists()) {
-                                    // Obtenemos los datos del usuario
-                                    val nombres = document.getString("nombres")
-                                    val apellidos = document.getString("apellidos")
-                                    val rol = document.getString("rol")
+                                    val userData = document.data
+                                    val nombres = userData?.get("nombres") as? String ?: ""
+                                    val apellidos = userData?.get("apellidos") as? String ?: ""
+                                    val rol = userData?.get("rol") as? String ?: "common"
 
                                     Toast.makeText(requireContext(), "Bienvenido, $nombres $apellidos", Toast.LENGTH_SHORT).show()
 
                                     // Redirigir según el rol
-                                    when (rol) {
-                                        "admin" -> {
-                                            replaceFragment(DashboardFragment())
-                                        }
-                                        "limpiador" -> {
-                                            replaceFragment(TaskManagementFragment())
-                                        }
-                                        "common" -> {
-                                            replaceFragment(ReportFragment())
-                                        }
-                                        else -> {
-                                            replaceFragment(ReportFragment())
-                                        }
+                                    val fragment = when (rol) {
+                                        "admin" -> DashboardFragment()
+                                        "limpiador" -> TaskManagementFragment()
+                                        "common" -> ReportFragment()
+                                        else -> ItemTaskFragment()
                                     }
+                                    replaceFragment(fragment)
                                 } else {
                                     Toast.makeText(requireContext(), "No se encontraron detalles del usuario", Toast.LENGTH_SHORT).show()
+                                    // Considerar cerrar la sesión o crear un perfil de usuario
+                                    auth.signOut()
                                 }
                             }
                             .addOnFailureListener { exception ->
-                                Toast.makeText(requireContext(), "Error al obtener datos del usuario: ${exception.message}", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(requireContext(), "Error al obtener datos del usuario: ${exception.localizedMessage}", Toast.LENGTH_SHORT).show()
+                                // Considerar cerrar la sesión
+                                auth.signOut()
                             }
+                    } ?: run {
+                        Toast.makeText(requireContext(), "Error: Usuario no autenticado", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    val errorMessage = task.exception?.message ?: "Error desconocido"
-                    Toast.makeText(requireContext(), "Error: $errorMessage", Toast.LENGTH_SHORT).show()
+                    val errorMessage = task.exception?.localizedMessage ?: "Error desconocido"
+                    Toast.makeText(requireContext(), "Error de autenticación: $errorMessage", Toast.LENGTH_SHORT).show()
                 }
             }
     }
@@ -142,13 +141,37 @@ class LoginFragment : Fragment() {
 
 
     private fun registerUser(email: String, password: String) {
+        val rol: String = "common"
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Toast.makeText(requireContext(), "Registro exitoso", Toast.LENGTH_SHORT).show()
+                    val user = auth.currentUser
+                    user?.let { firebaseUser ->
+                        // Crear un documento de usuario en Firestore
+                        val db = FirebaseFirestore.getInstance()
+                        val userRef = db.collection("users").document(firebaseUser.uid)
+
+                        val userData = hashMapOf(
+                            "email" to email,
+                            "rol" to rol
+                        )
+
+                        userRef.set(userData)
+                            .addOnSuccessListener {
+                                Toast.makeText(requireContext(), "Registro exitoso", Toast.LENGTH_SHORT).show()
+                                // Aquí puedes redirigir al usuario a la pantalla de inicio de sesión o al dashboard
+                            }
+                            .addOnFailureListener { e ->
+                                Toast.makeText(requireContext(), "Error al guardar datos del usuario: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+                                // Considerar eliminar la cuenta de autenticación si falla la creación del documento
+                                firebaseUser.delete()
+                            }
+                    } ?: run {
+                        Toast.makeText(requireContext(), "Error: Usuario no creado correctamente", Toast.LENGTH_SHORT).show()
+                    }
                 } else {
-                    val errorMessage = task.exception?.message ?: "Error desconocido"
-                    Toast.makeText(requireContext(), "Error: $errorMessage", Toast.LENGTH_SHORT).show()
+                    val errorMessage = task.exception?.localizedMessage ?: "Error desconocido"
+                    Toast.makeText(requireContext(), "Error de registro: $errorMessage", Toast.LENGTH_SHORT).show()
                 }
             }
     }
