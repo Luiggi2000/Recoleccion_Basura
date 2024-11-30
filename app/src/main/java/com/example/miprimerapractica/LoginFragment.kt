@@ -81,58 +81,56 @@ class LoginFragment : Fragment() {
     }
 
     private fun loginUser(email: String, password: String) {
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val user = auth.currentUser
-                    if (user != null) {
-                        // El correo ya está disponible en el objeto 'user'
-                        val email = user.email
-
-                        Toast.makeText(requireContext(), "Bienvenido, $email", Toast.LENGTH_SHORT).show()
-
-                        // Opcional: Consultar Firestore para obtener más información del usuario
-                        val userRef = db.collection("users").document(user.uid)
-                        userRef.get()
-                            .addOnSuccessListener { document ->
-                                if (document.exists()) {
-                                    // Aquí puedes verificar y obtener más información (como rol, nombre, etc.)
-                                    val rol = document.getString("rol") ?: "common" // Asigna un valor por defecto si no existe
-
-                                    // Redirigir según el rol
-                                    when (rol) {
-                                        "admin" -> {
-                                            replaceFragment(DashboardFragment())
-                                        }
-                                        "limpiador" -> {
-                                            replaceFragment(TaskManagementFragment())
-                                        }
-                                        "common" -> {
-                                            replaceFragment(ReportFragment())
-                                        }
-                                        else -> {
-                                            replaceFragment(ReportFragment())
-                                        }
-                                    }
-                                } else {
-                                    // Si no se encuentran detalles adicionales del usuario en Firestore
-                                    Toast.makeText(requireContext(), "No se encontraron detalles del usuario", Toast.LENGTH_SHORT).show()
-                                    // Redirigir al usuario por defecto
-                                    replaceFragment(ReportFragment())
-                                }
-                            }
-                            .addOnFailureListener { exception ->
-                                // Si ocurre un error al consultar Firestore
-                                Toast.makeText(requireContext(), "Error al obtener datos del usuario: ${exception.message}", Toast.LENGTH_SHORT).show()
-                            }
-                    }
+        // Consultar Firestore para obtener los datos del usuario
+        val userRef = db.collection("usuarios").whereEqualTo("correo", email)
+        userRef.get()
+            .addOnSuccessListener { documents ->
+                if (documents.isEmpty) {
+                    // Si no se encuentra ningún usuario con ese email
+                    Toast.makeText(requireContext(), "Usuario no encontrado", Toast.LENGTH_SHORT).show()
                 } else {
-                    // Si el inicio de sesión falla
-                    val errorMessage = task.exception?.message ?: "Error desconocido"
-                    Toast.makeText(requireContext(), "Error: $errorMessage", Toast.LENGTH_SHORT).show()
+                    // Suponemos que solo hay un documento con ese email
+                    val document = documents.first()
+                    val storedPassword = document.getString("contrasena") ?: ""
+
+                    // Obtener el UID del documento (ID del documento o campo "uid")
+                    val uid = document.id  // o document.getString("uid") si lo almacenas explícitamente
+
+                    // Verificar que la contraseña proporcionada coincida
+                    if (password == storedPassword) {
+                        // Autenticación exitosa
+                        val rol = document.getString("rol") ?: "common"
+
+                        Toast.makeText(requireContext(), "Bienvenido, $rol. UID: $uid", Toast.LENGTH_SHORT).show()
+
+                        // Redirigir según el rol
+                        when (rol) {
+                            "admin" -> {
+                                replaceFragment(DashboardFragment())
+                            }
+                            "limpiador" -> {
+                                replaceFragment(TaskManagementFragment())
+                            }
+                            "common" -> {
+                                replaceFragment(ReportFragment())
+                            }
+                            else -> {
+                                replaceFragment(ReportFragment())
+                            }
+                        }
+                    } else {
+                        // Si la contraseña no es correcta
+                        Toast.makeText(requireContext(), "Contraseña incorrecta", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
+            .addOnFailureListener { exception ->
+                // Si ocurre un error al consultar Firestore
+                Toast.makeText(requireContext(), "Error al obtener datos del usuario: ${exception.message}", Toast.LENGTH_SHORT).show()
+            }
     }
+
+
 
 
 

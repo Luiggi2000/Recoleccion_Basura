@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "1026272514303",
-    "project_id": "limpiauns",
-    "storage_bucket": "limpiauns.firebasestorage.app"
+    "project_number": "823179074100",
+    "project_id": "limpiauns-63d97",
+    "storage_bucket": "limpiauns-63d97.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1026272514303:android:b8cc34d54b4bcdc48cbcca",
+        "mobilesdk_app_id": "1:823179074100:android:71a84a73e92647e8ab4861",
         "android_client_info": {
           "package_name": "com.example.miprimerapractica"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyC0dL1M0QkNX8D57OqPyz6xbgYTvRVR2us"
+          "current_key": "AIzaSyCqvwBPOn8XqSm0hn1u0yPCyAoYFNWOdWg"
         }
       ],
       "services": {
