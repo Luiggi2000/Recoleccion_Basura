@@ -95,8 +95,8 @@
                 android:layout_height="wrap_content" />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="357dp"
+                android:layout_height="125dp"
                 android:orientation="vertical">
 
                 <Button
@@ -107,7 +107,7 @@
                     android:backgroundTint="#1976D2"
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/registrarse"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white" />
 
                 <Button
                     android:id="@+id/loginbtn"
@@ -117,7 +117,7 @@
                     android:backgroundTint="#1976D2"
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/inicio_sesion"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white" />
             </LinearLayout>
 
             <TextView

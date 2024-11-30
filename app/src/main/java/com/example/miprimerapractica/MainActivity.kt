@@ -1,9 +1,11 @@
 package com.example.miprimerapractica
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -12,42 +14,31 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
+    private lateinit var navController: NavController
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
         // Inicializar FirebaseAuth y Firestore
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 
-        setContentView(R.layout.activity_main)
-/*
-        // Configurar NavController para manejar navegación desde nav_graph
-        val navController =
-            findNavController(androidx.navigation.fragment.R.id.nav_host_fragment_container)
-        setupActionBarWithNavController(navController)
+        // Configurar NavController
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_graph) as NavHostFragment
+        navController = navHostFragment.navController
+
+        // Configurar AppBarConfiguration
+        appBarConfiguration = AppBarConfiguration(navController.graph)
+
+        // Asegurarse de que el ActionBar esté disponible antes de configurarlo
+        supportActionBar?.let { actionBar ->
+            setupActionBarWithNavController(navController, appBarConfiguration)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navController =
-            findNavController(androidx.navigation.fragment.R.id.nav_host_fragment_container)
-        return navController.navigateUp() || super.onSupportNavigateUp()
-
- */
-        enableEdgeToEdge()
-
-
-        if (savedInstanceState == null) {
-            val fragmentTransaction = supportFragmentManager.beginTransaction()
-            val loginFragment = LoginFragment()
-
-            // Reemplazar el fragmento en el contenedor de FrameLayout
-            fragmentTransaction.replace(R.id.nav_graph, loginFragment)
-            fragmentTransaction.commit()
-        }}
-
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
-
-
-
 }

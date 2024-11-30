@@ -45,8 +45,11 @@ dependencies {
     implementation(libs.play.services.location)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.navigation.runtime.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
+    implementation (libs.play.services.auth)
+
     androidTestImplementation(libs.androidx.espresso.core)
     implementation ("com.google.firebase:firebase-auth-ktx:22.0.0")
     implementation ("com.google.firebase:firebase-firestore-ktx:25.0.0")

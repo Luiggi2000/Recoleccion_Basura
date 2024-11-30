@@ -85,19 +85,21 @@ class LoginFragment : Fragment() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val user = auth.currentUser
+                    val db = FirebaseFirestore.getInstance()
+
                     if (user != null) {
-                        // El correo ya está disponible en el objeto 'user'
-                        val email = user.email
-
-                        Toast.makeText(requireContext(), "Bienvenido, $email", Toast.LENGTH_SHORT).show()
-
-                        // Opcional: Consultar Firestore para obtener más información del usuario
+                        // Utilizamos el UID del usuario autenticado para obtener los datos del usuario en Firestore
                         val userRef = db.collection("users").document(user.uid)
+
                         userRef.get()
                             .addOnSuccessListener { document ->
                                 if (document.exists()) {
-                                    // Aquí puedes verificar y obtener más información (como rol, nombre, etc.)
-                                    val rol = document.getString("rol") ?: "common" // Asigna un valor por defecto si no existe
+                                    // Obtenemos los datos del usuario
+                                    val nombres = document.getString("nombres")
+                                    val apellidos = document.getString("apellidos")
+                                    val rol = document.getString("rol")
+
+                                    Toast.makeText(requireContext(), "Bienvenido, $nombres $apellidos", Toast.LENGTH_SHORT).show()
 
                                     // Redirigir según el rol
                                     when (rol) {
@@ -115,25 +117,19 @@ class LoginFragment : Fragment() {
                                         }
                                     }
                                 } else {
-                                    // Si no se encuentran detalles adicionales del usuario en Firestore
                                     Toast.makeText(requireContext(), "No se encontraron detalles del usuario", Toast.LENGTH_SHORT).show()
-                                    // Redirigir al usuario por defecto
-                                    replaceFragment(ReportFragment())
                                 }
                             }
                             .addOnFailureListener { exception ->
-                                // Si ocurre un error al consultar Firestore
                                 Toast.makeText(requireContext(), "Error al obtener datos del usuario: ${exception.message}", Toast.LENGTH_SHORT).show()
                             }
                     }
                 } else {
-                    // Si el inicio de sesión falla
                     val errorMessage = task.exception?.message ?: "Error desconocido"
                     Toast.makeText(requireContext(), "Error: $errorMessage", Toast.LENGTH_SHORT).show()
                 }
             }
     }
-
 
 
     private fun replaceFragment(fragment: Fragment) {
